@@ -1,0 +1,32 @@
+embed 
+<drac2>
+if "&*&":
+    m = "&*&".lower() 
+else:
+    m = get_svar("season", "summer")
+if m == "winter": 
+    s = -1 
+elif m == "fall": 
+    s = -2 
+elif m == "summer": 
+    s = -3 
+elif m == "spring":
+    s = -4
+temp = ["cooler than usual", "normal", "hotter than usual"]
+pers = ["no rain", "misting", "a rain storm"], ["no rain", "misting", "a rain storm"], ["no rain", "misting", "sleeting"], ["no snow", "flurries", "a blizzard"]
+wind = ["no", "light", "strong"]
+dir = ["north", "south", "east", "west"]
+unusual = ["ashfall", "solar eclipse", "strange lights in the sky", "meteor shower"]
+t = temp[roll("-1d3")]
+w = wind[roll("-1d3")]
+p = pers[s][roll("-1d3")]
+d = dir[roll("-1d4")]
+u = unusual[roll("-1d4")]
+x = True
+x = False if w == 'no' else x
+z = roll("1d20")
+</drac2>
+-title "Today's Forecast"
+-desc "{{(f'''Today's temperature will be {t} for this time of year \n\nThere will be {p} with no wind''' if x==False else f'''Today's temperature will be {t} for this time of year \n\nThere will be {p}  with a {w} wind from the {d}''') if w != 1 else (f'''Beware, there is strangeness afoot. Watch for the {u} today''')}}"
+-footer "{{f'''!weather season. This season is {m} | Made by Meri'''}}"
+-thumb "https://d279m997dpfwgl.cloudfront.net/wp/2017/12/weather_album-art-1000x1000.jpg"
