@@ -1,0 +1,25 @@
+tembed {{args,raw=&ARGS&,character()}}
+{{skill,help=([x[0] for x in raw.skills if args and args[0].lower().replace(" ","") in x[0].lower()]+["animalHandling"])[0],args and args[0] in "help?"}}
+{{eff=raw.skills[skill].adv}}
+{{adv,dis="+5 [advantage]" if not ("dis" in args or eff=="dis") and ("adv" in args or eff==False) else "","-5 [disadvantage]" if not ("adv" in args or eff==False) and ("dis" in args or eff=="dis") else ""}}
+{{x=vroll(f"1d20+{raw.skills[skill].value}{adv}{dis}")}}
+{{y=vroll(f"1d20+3")}}
+{{z=vroll(f"1d20+3")}}
+{{w=vroll(f"1d20+3")}}
+{{a = int(get_svar("rideTime", 180))}}
+{{s = time()}}{{character().set_cvar_nx("m", s)}}{{get("m", 0)}} {{f=float(m)}} {{p=(True if (abs(s) - abs(f))>a else False)}} {{if p == True: character().set_cvar("m", s)}}
+<drac2>
+if p == True:
+    if x.total>y.total and x.total>z.total and x.total>w.total:
+        B = dict(load_json(get("bags")))
+        if "Coin Pouch" not in B:
+             B.update({'Coin Pouch': {} }) 
+   
+        B["Coin Pouch"][gp] += 100
+        B = dump_json([[x, y] for x,y in B.items()])
+        character().set_cvar("bags", B)
+</drac2>
+-title "{{'<name> is at the races!' if p == True else 'Try again later'}}"
+-desc "{{f'{x}\nFrancis: {y} \nGeorge: {z}\nAlice: {w}' if p else f'You need to wait before you can race again. Only **{a-(ceil(s)-ceil(f))}** seconds left!'}}"
+
+-footer "{{(f'Congratulations! You won 100 GP! | Made by: Meri' if x.total>y.total and x.total>z.total and x.total>w.total else 'Sorry. Try again | Made by: Meri') if p == True else "Made by: Meri"}}"
